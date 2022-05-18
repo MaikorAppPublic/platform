@@ -1,0 +1,13 @@
+[package]
+name = "maikor-platform"
+version = "0.1.17"
+edition = "2021"
+authors = ["Ray Britton <raybritton@pm.me>"]
+description = "Maikor Platform (language, addresses, etc)"
+license = "MIT"
+repository = "https://github.com/MaikorAppPublic/platform"
+readme = "README.md"
+homepage = "https://maikor.app"
+
+[dependencies]
+thiserror = "1.0.31"
