@@ -15,8 +15,8 @@ pub const PRE_INC: u8 = 0b01100000;
 pub const PRE_DEC: u8 = 0b01110000;
 pub const INDIRECT: u8 = 0b10000000;
 pub const IND_OFFSET_REG: u8 = 0b10010000;
-pub const IND_OFFSET_NUM: u8 = 0b10100000;
-//pub const RESERVED: u8 =   0b10110000;
+pub const IND_OFFSET_EXT_REG: u8 = 0b10100000;
+pub const IND_OFFSET_NUM: u8 = 0b10110000;
 pub const IND_POST_INC: u8 = 0b11000000;
 pub const IND_POST_DEC: u8 = 0b11010000;
 pub const IND_PRE_INC: u8 = 0b11100000;
@@ -38,6 +38,7 @@ pub enum ID {
 pub struct RegisterPPID {
     pub is_indirect: bool,
     pub is_offset_reg: bool,
+    pub is_offset_ext_reg: bool,
     pub is_offset_num: bool,
     pub ppid: Option<(PP, ID)>,
 }
@@ -47,12 +48,14 @@ impl RegisterPPID {
         is_indirect: bool,
         is_offset_reg: bool,
         is_offset_num: bool,
+        is_offset_ext_reg: bool,
         ppid: Option<(PP, ID)>,
     ) -> Self {
         Self {
             is_indirect,
             is_offset_reg,
             is_offset_num,
+            is_offset_ext_reg,
             ppid,
         }
     }
@@ -63,18 +66,19 @@ impl TryFrom<u8> for RegisterPPID {
 
     fn try_from(value: u8) -> Result<Self, LangError> {
         let ppid = match value & MASK {
-            IND_PRE_DEC => RegisterPPID::new(true, false, false, Some((Pre, Dec))),
-            IND_POST_DEC => RegisterPPID::new(true, false, false, Some((Post, Dec))),
-            IND_PRE_INC => RegisterPPID::new(true, false, false, Some((Pre, Inc))),
-            IND_POST_INC => RegisterPPID::new(true, false, false, Some((Post, Inc))),
-            INDIRECT => RegisterPPID::new(true, false, false, None),
-            PRE_DEC => RegisterPPID::new(false, false, false, Some((Pre, Dec))),
-            POST_DEC => RegisterPPID::new(false, false, false, Some((Post, Dec))),
-            PRE_INC => RegisterPPID::new(false, false, false, Some((Pre, Inc))),
-            POST_INC => RegisterPPID::new(false, false, false, Some((Post, Inc))),
-            REGISTER => RegisterPPID::new(false, false, false, None),
-            IND_OFFSET_REG => RegisterPPID::new(true, true, false, None),
-            IND_OFFSET_NUM => RegisterPPID::new(true, false, true, None),
+            IND_PRE_DEC => RegisterPPID::new(true, false, false, false, Some((Pre, Dec))),
+            IND_POST_DEC => RegisterPPID::new(true, false, false, false, Some((Post, Dec))),
+            IND_PRE_INC => RegisterPPID::new(true, false, false, false, Some((Pre, Inc))),
+            IND_POST_INC => RegisterPPID::new(true, false, false, false, Some((Post, Inc))),
+            INDIRECT => RegisterPPID::new(true, false, false, false, None),
+            PRE_DEC => RegisterPPID::new(false, false, false, false, Some((Pre, Dec))),
+            POST_DEC => RegisterPPID::new(false, false, false, false, Some((Post, Dec))),
+            PRE_INC => RegisterPPID::new(false, false, false, false, Some((Pre, Inc))),
+            POST_INC => RegisterPPID::new(false, false, false, false, Some((Post, Inc))),
+            REGISTER => RegisterPPID::new(false, false, false, false, None),
+            IND_OFFSET_REG => RegisterPPID::new(true, true, false, false, None),
+            IND_OFFSET_EXT_REG => RegisterPPID::new(true, false, false, true, None),
+            IND_OFFSET_NUM => RegisterPPID::new(true, false, true, false, None),
             _ => return Err(InvalidRegisterArgCode(value)),
         };
         Ok(ppid)
@@ -87,6 +91,8 @@ impl From<RegisterPPID> for u8 {
 
         if arg.is_offset_reg {
             return IND_OFFSET_REG;
+        } else if arg.is_offset_ext_reg {
+            return IND_OFFSET_EXT_REG;
         } else if arg.is_offset_num {
             return IND_OFFSET_NUM;
         } else if arg.is_indirect {
@@ -123,6 +129,7 @@ mod test {
             IND_PRE_INC,
             IND_PRE_DEC,
             IND_OFFSET_REG,
+            IND_OFFSET_EXT_REG,
             IND_OFFSET_NUM,
         ];
         for value in values {

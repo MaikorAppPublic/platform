@@ -1,5 +1,9 @@
 ## Pre-alpha
 
+### 0.1.18
+- *BREAKING CHANGE*
+- Fix issue with offset addressing (split reg into reg and ext reg)
+
 ### 0.1.17
 - *BREAKING CHANGE* (MAJOR)
 - Rename repo and dep to `platform`
