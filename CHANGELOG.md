@@ -1,5 +1,10 @@
 ## Pre-alpha
 
+### 0.1.19
+- *BREAKING CHANGE*
+- Increase stack to 1000b and change it's address
+- Change total sizes to usize so they are the correct value of 65536 instead of 65535
+
 ### 0.1.18
 - *BREAKING CHANGE*
 - Fix issue with offset addressing (split reg into reg and ext reg)

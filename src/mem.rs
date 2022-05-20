@@ -27,7 +27,7 @@ pub mod sizes {
     //25x20 (tiles) 200x160 (pixels) 100x160 (bytes) atlas of palette index (two colour IDs per byte)
     pub const ATLAS: u16 = 100 * 80;
     pub const ATLAS_BANK_ID: u16 = 1;
-    pub const STACK: u16 = 900;
+    pub const STACK: u16 = 1000;
     pub const SP: u16 = 2;
     pub const FP: u16 = 2;
     pub const TIMER_CONTROL: u16 = 2;
@@ -59,8 +59,8 @@ pub mod sizes {
         CODE + RAM + CODE_BANK_ID + RAM_BANK_ID + STACK + SP + FP + TIMERS + IRQ_INTERNAL + VLINE;
     pub const HARDWARE_TOTAL: u16 =
         SOUND + INPUT + SAVE_BANK_ID + SAVE_BANK + SAVE_CONTROL + DATETIME + RAND;
-    pub const RESERVED: u16 = 151;
-    pub const TOTAL: u16 = GRAPHICS_TOTAL + SYSTEM_TOTAL + HARDWARE_TOTAL + RESERVED;
+    pub const RESERVED: u16 = 52;
+    pub const TOTAL: usize = (GRAPHICS_TOTAL + SYSTEM_TOTAL + HARDWARE_TOTAL) as usize + RESERVED as usize;
 }
 
 pub mod address {
@@ -101,7 +101,7 @@ pub mod address {
     pub const DATETIME: u16 = 0xFBDD; //64477
     pub const RAND: u16 = 0xFBE3; //64483
     pub const RESERVED: u16 = 0xFBE4; //64484
-    pub const STACK: u16 = 0xFC7B; //64635
+    pub const STACK: u16 = 0xFC18; //64536
     pub const MAX: u16 = 0xFFFF; //65535
 
     pub mod interrupt {
@@ -151,7 +151,7 @@ mod test {
 
     #[test]
     fn test_values() {
-        assert_eq!(TOTAL, u16::MAX);
+        assert_eq!(TOTAL, 65536);
     }
 
     #[test]
@@ -254,6 +254,7 @@ mod test {
         assert_eq!(address::RAND, address::DATETIME + sizes::DATETIME);
         assert_eq!(address::RESERVED, address::RAND + sizes::RAND);
         assert_eq!(address::STACK, address::RESERVED + sizes::RESERVED);
-        assert_eq!(address::MAX, address::STACK + sizes::STACK);
+        assert_eq!(65536, address::STACK as usize + sizes::STACK as usize);
+        assert_eq!(address::MAX, 0xFFFF);
     }
 }
