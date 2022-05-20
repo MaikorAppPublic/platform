@@ -60,7 +60,8 @@ pub mod sizes {
     pub const HARDWARE_TOTAL: u16 =
         SOUND + INPUT + SAVE_BANK_ID + SAVE_BANK + SAVE_CONTROL + DATETIME + RAND;
     pub const RESERVED: u16 = 52;
-    pub const TOTAL: usize = (GRAPHICS_TOTAL + SYSTEM_TOTAL + HARDWARE_TOTAL) as usize + RESERVED as usize;
+    pub const TOTAL: usize =
+        (GRAPHICS_TOTAL + SYSTEM_TOTAL + HARDWARE_TOTAL) as usize + RESERVED as usize;
 }
 
 pub mod address {
