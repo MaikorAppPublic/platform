@@ -2,8 +2,35 @@ use crate::graphics::sprite::{byte4, byte5};
 use crate::models::{Byteable, Sprite};
 
 impl Sprite {
-    pub fn new(x: usize, y: usize, id: usize, flip_v: bool, flip_h: bool, palette: usize, large: bool, order: usize, half_alpha: bool, rotated: bool, atlas: usize, enabled: bool) -> Self {
-        Self { x, y, id, flip_v, flip_h, palette, large, order, half_alpha, rotated, atlas, enabled }
+    #[allow(clippy::too_many_arguments)]
+    pub fn new(
+        x: usize,
+        y: usize,
+        id: usize,
+        flip_v: bool,
+        flip_h: bool,
+        palette: usize,
+        large: bool,
+        order: usize,
+        half_alpha: bool,
+        rotated: bool,
+        atlas: usize,
+        enabled: bool,
+    ) -> Self {
+        Self {
+            x,
+            y,
+            id,
+            flip_v,
+            flip_h,
+            palette,
+            large,
+            order,
+            half_alpha,
+            rotated,
+            atlas,
+            enabled,
+        }
     }
 }
 
@@ -63,12 +90,12 @@ mod test {
     #[test]
     fn write_test() {
         let sprite = Sprite::default();
-        assert_eq!(sprite.to_bytes(), [0,0,0,0,0]);
-        let sprite = Sprite::new(255,255,255,true,true,3,true,3,true,true,3,true);
-        assert_eq!(sprite.to_bytes(), [255,255,255,241,251]);
-        let sprite = Sprite::new(51,120,34,true,false,1,true,2,true,false,0,true);
+        assert_eq!(sprite.to_bytes(), [0, 0, 0, 0, 0]);
+        let sprite = Sprite::new(255, 255, 255, true, true, 3, true, 3, true, true, 3, true);
+        assert_eq!(sprite.to_bytes(), [255, 255, 255, 241, 251]);
+        let sprite = Sprite::new(51, 120, 34, true, false, 1, true, 2, true, false, 0, true);
         let bytes = sprite.to_bytes();
-        assert_eq!(bytes, [51,120,34,161,193]);
+        assert_eq!(bytes, [51, 120, 34, 161, 193]);
         assert_eq!(bytes[3] & byte4::MASK_ENABLED, byte4::MASK_ENABLED);
         assert_eq!(bytes[3] & byte4::MASK_FLIP_V, byte4::MASK_FLIP_V);
         assert_eq!(bytes[3] & byte4::MASK_FLIP_H, 0);
@@ -82,11 +109,23 @@ mod test {
 
     #[test]
     fn read_test() {
-        let sprite = Sprite::from_bytes(&[0,0,0,0,0]);
+        let sprite = Sprite::from_bytes(&[0, 0, 0, 0, 0]);
         assert_eq!(sprite, Sprite::default());
-        let sprite = Sprite::from_bytes(&[255,255,255,255,255]);
-        assert_eq!(sprite, Sprite::new(255,255,255,true,true,3,true,3,true,true,3,true));
-        let sprite = Sprite::from_bytes(&[126,69,99,byte4::MASK_ENABLED | byte4::MASK_FLIP_V | byte4::MASK_HALF_ALPHA,byte5::MASK_LARGE | 1]);
-        assert_eq!(sprite, Sprite::new(126,69,99,true,false,1,true,0,true,false,0,true));
+        let sprite = Sprite::from_bytes(&[255, 255, 255, 255, 255]);
+        assert_eq!(
+            sprite,
+            Sprite::new(255, 255, 255, true, true, 3, true, 3, true, true, 3, true)
+        );
+        let sprite = Sprite::from_bytes(&[
+            126,
+            69,
+            99,
+            byte4::MASK_ENABLED | byte4::MASK_FLIP_V | byte4::MASK_HALF_ALPHA,
+            byte5::MASK_LARGE | 1,
+        ]);
+        assert_eq!(
+            sprite,
+            Sprite::new(126, 69, 99, true, false, 1, true, 0, true, false, 0, true)
+        );
     }
 }

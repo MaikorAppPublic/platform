@@ -2,8 +2,22 @@ use crate::graphics::layer_tile::byte2;
 use crate::models::{Byteable, LayerTile};
 
 impl LayerTile {
-    pub fn new(id: usize, flip_v: bool, flip_h: bool, palette: usize, half_alpha: bool, rotated: bool) -> Self {
-        Self { id, flip_v, flip_h, palette, half_alpha, rotated }
+    pub fn new(
+        id: usize,
+        flip_v: bool,
+        flip_h: bool,
+        palette: usize,
+        half_alpha: bool,
+        rotated: bool,
+    ) -> Self {
+        Self {
+            id,
+            flip_v,
+            flip_h,
+            palette,
+            half_alpha,
+            rotated,
+        }
     }
 }
 
@@ -71,9 +85,9 @@ mod test {
 
     #[test]
     fn read_test() {
-        let tile = LayerTile::from_bytes(&[0,0]);
+        let tile = LayerTile::from_bytes(&[0, 0]);
         assert_eq!(tile, LayerTile::default());
-        let tile = LayerTile::from_bytes(&[255,252]);
+        let tile = LayerTile::from_bytes(&[255, 252]);
         assert_eq!(tile, LayerTile::new(255, true, true, 3, true, true));
         let tile = LayerTile::from_bytes(&[91, byte2::MASK_FLIP_V | byte2::MASK_HALF_ALPHA]);
         assert_eq!(tile, LayerTile::new(91, true, false, 0, true, false));
