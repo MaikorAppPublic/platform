@@ -1,5 +1,8 @@
 ## Pre-alpha
 
+### 0.1.21
+- Add MSWP for easy sprite management
+
 ### 0.1.20
 - *BREAKING CHANGE*
 - Atlas count changed from 2 to 4

@@ -233,6 +233,14 @@ pub mod op {
     pub const PUSH_NUM_WORD: &str = "PUSH.W";
     pub const POP_REG_BYTE: &str = "POP.B";
     pub const POP_REG_WORD: &str = "POP.W";
+    pub const MSWP_REG_REG_REG: &str = "MSWP";
+    pub const MSWP_REG_REG_BYTE: &str = "MSWP";
+    pub const MSWP_REG_ADDR_REG: &str = "MSWP";
+    pub const MSWP_REG_ADDR_BYTE: &str = "MSWP";
+    pub const MSWP_ADDR_REG_REG: &str = "MSWP";
+    pub const MSWP_ADDR_REG_BYTE: &str = "MSWP";
+    pub const MSWP_ADDR_ADDR_REG: &str = "MSWP";
+    pub const MSWP_ADDR_ADDR_BYTE: &str = "MSWP";
 }
 
 /// Command name + size + args
@@ -458,4 +466,12 @@ pub mod full {
     pub const POP_REG_BYTE: &str = "POP.B (R)";
     pub const POP_REG_WORD: &str = "POP.W (R)";
     pub const SLEEP: &str = "SLEEP";
+    pub const MSWP_REG_REG_REG: &str = "MSWP (R,R,R)";
+    pub const MSWP_REG_REG_BYTE: &str = "MSWP (R,R,B)";
+    pub const MSWP_REG_ADDR_REG: &str = "MSWP (R,A,R)";
+    pub const MSWP_REG_ADDR_BYTE: &str = "MSWP (R,A,B)";
+    pub const MSWP_ADDR_REG_REG: &str = "MSWP (A,R,R)";
+    pub const MSWP_ADDR_REG_BYTE: &str = "MSWP (A,R,B)";
+    pub const MSWP_ADDR_ADDR_REG: &str = "MSWP (A,A,R)";
+    pub const MSWP_ADDR_ADDR_BYTE: &str = "MSWP (A,A,B)";
 }

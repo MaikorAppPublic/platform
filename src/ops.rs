@@ -121,7 +121,15 @@ pub const PUSH_NUM_BYTE: u8 = 0x71;
 pub const PUSH_NUM_WORD: u8 = 0x73;
 pub const POP_REG_BYTE: u8 = 0x74;
 pub const POP_REG_WORD: u8 = 0x75;
-//unused 10 0x76 - 0x7F
+pub const MSWP_REG_REG_REG: u8 = 0x76;
+pub const MSWP_REG_REG_BYTE: u8 = 0x77;
+pub const MSWP_REG_ADDR_REG: u8 = 0x78;
+pub const MSWP_REG_ADDR_BYTE: u8 = 0x79;
+pub const MSWP_ADDR_REG_REG: u8 = 0x7A;
+pub const MSWP_ADDR_REG_BYTE: u8 = 0x7B;
+pub const MSWP_ADDR_ADDR_BYTE: u8 = 0x7C;
+pub const MSWP_ADDR_ADDR_REG: u8 = 0x7D;
+//unused 2 0x7E - 0x7F
 
 pub const MUL_REG_REG_BYTE: u8 = 0x80;
 pub const MUL_REG_REG_WORD: u8 = 0x81;
@@ -268,7 +276,7 @@ pub const MAY_JMP_OPS: [u8; 20] = [
 ];
 
 #[rustfmt::skip]
-pub const ALL: [u8; 220] = [
+pub const ALL: [u8; 228] = [
     NOP, HALT,
     CALL_ADDR, CALL_REG, RET, RETI,
     CPY_REG_REG_BYTE, CPY_REG_REG_WORD, CPY_ADDR_REG_BYTE, CPY_ADDR_REG_WORD,
@@ -329,6 +337,8 @@ pub const ALL: [u8; 220] = [
     SUBC_REG_REG_BYTE, SUBC_REG_REG_WORD, SUBC_REG_NUM_BYTE, SUBC_REG_NUM_WORD,
     SUBC_REG_ADDR_BYTE, SUBC_REG_ADDR_WORD, SUBC_ADDR_REG_BYTE, SUBC_ADDR_REG_WORD,
     SUBC_ADDR_NUM_BYTE, SUBC_ADDR_NUM_WORD, SUBC_ADDR_ADDR_BYTE, SUBC_ADDR_ADDR_WORD,
+    MSWP_REG_REG_REG, MSWP_REG_REG_BYTE, MSWP_REG_ADDR_REG, MSWP_REG_ADDR_BYTE,
+    MSWP_ADDR_REG_REG, MSWP_ADDR_REG_BYTE, MSWP_ADDR_ADDR_REG, MSWP_ADDR_ADDR_BYTE,
     EHALT,
     SLEEP,
 ];
@@ -342,7 +352,7 @@ mod test {
         let mut encountered = vec![];
         for op in ALL {
             if encountered.contains(&op) {
-                panic!("Found {op} twice");
+                panic!("Found {:02X} twice", op);
             }
             encountered.push(op);
         }

@@ -297,6 +297,16 @@ pub fn op_codes(text: &str) -> Result<Vec<u8>, LangError> {
         "PUSH.W" => vec![ops::PUSH_REG_WORD, ops::PUSH_NUM_WORD],
         "POP.B" => vec![ops::POP_REG_BYTE],
         "POP.W" => vec![ops::POP_REG_WORD],
+        "MSWP" => vec![
+            ops::MSWP_REG_REG_REG,
+            ops::MSWP_REG_REG_BYTE,
+            ops::MSWP_REG_ADDR_REG,
+            ops::MSWP_REG_ADDR_BYTE,
+            ops::MSWP_ADDR_REG_REG,
+            ops::MSWP_ADDR_REG_BYTE,
+            ops::MSWP_ADDR_ADDR_REG,
+            ops::MSWP_ADDR_ADDR_BYTE,
+        ],
         _ => return Err(InvalidInstructionName(text.to_string())),
     };
     Ok(code)
@@ -524,6 +534,14 @@ pub fn op_name(op: u8) -> Result<&'static str, LangError> {
         ops::SUBC_ADDR_ADDR_BYTE => names::op::SUBC_ADDR_ADDR_BYTE,
         ops::SUBC_ADDR_ADDR_WORD => names::op::SUBC_ADDR_ADDR_WORD,
         ops::SLEEP => names::op::SLEEP,
+        ops::MSWP_REG_REG_REG => names::op::MSWP_REG_REG_REG,
+        ops::MSWP_REG_REG_BYTE => names::op::MSWP_REG_REG_BYTE,
+        ops::MSWP_REG_ADDR_REG => names::op::MSWP_REG_ADDR_REG,
+        ops::MSWP_REG_ADDR_BYTE => names::op::MSWP_REG_ADDR_BYTE,
+        ops::MSWP_ADDR_ADDR_REG => names::op::MSWP_ADDR_ADDR_REG,
+        ops::MSWP_ADDR_ADDR_BYTE => names::op::MSWP_ADDR_ADDR_BYTE,
+        ops::MSWP_ADDR_REG_REG => names::op::MSWP_ADDR_REG_REG,
+        ops::MSWP_ADDR_REG_BYTE => names::op::MSWP_ADDR_REG_BYTE,
         _ => return Err(InvalidInstructionCode(op)),
     };
     Ok(name)
@@ -751,6 +769,14 @@ pub fn op_desc(op: u8) -> Result<&'static str, LangError> {
         ops::PUSH_NUM_WORD => names::full::PUSH_NUM_WORD,
         ops::POP_REG_BYTE => names::full::POP_REG_BYTE,
         ops::POP_REG_WORD => names::full::POP_REG_WORD,
+        ops::MSWP_REG_REG_REG => names::full::MSWP_REG_REG_REG,
+        ops::MSWP_REG_REG_BYTE => names::full::MSWP_REG_REG_BYTE,
+        ops::MSWP_REG_ADDR_REG => names::full::MSWP_REG_ADDR_REG,
+        ops::MSWP_REG_ADDR_BYTE => names::full::MSWP_REG_ADDR_BYTE,
+        ops::MSWP_ADDR_ADDR_REG => names::full::MSWP_ADDR_ADDR_REG,
+        ops::MSWP_ADDR_ADDR_BYTE => names::full::MSWP_ADDR_ADDR_BYTE,
+        ops::MSWP_ADDR_REG_REG => names::full::MSWP_ADDR_REG_REG,
+        ops::MSWP_ADDR_REG_BYTE => names::full::MSWP_ADDR_REG_BYTE,
         _ => return Err(InvalidInstructionCode(op)),
     };
     Ok(name)
