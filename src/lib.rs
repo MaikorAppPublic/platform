@@ -5,11 +5,11 @@ pub mod constants;
 pub mod graphics;
 pub mod input;
 pub mod mem;
+pub mod models;
 pub mod names;
 pub mod op_params;
 pub mod ops;
 pub mod registers;
-pub mod models;
 
 #[derive(Error, Debug)]
 pub enum LangError {

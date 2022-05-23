@@ -18,6 +18,8 @@ pub const TILES_PER_COLUMN: usize = 20;
 pub const TILES_PER_LAYER_ROW: usize = 44;
 /// Tiles per row on a background layer
 pub const TILES_PER_LAYER_COLUMN: usize = 30;
+/// Tile count per layer
+pub const TILES_PER_LAYER: usize = TILES_PER_LAYER_ROW * TILES_PER_LAYER_COLUMN;
 /// Tiles per row in an atlas
 pub const TILES_PER_ATLAS_ROW: usize = 25;
 /// Tiles per row in an atlas

@@ -1,5 +1,13 @@
 ## Pre-alpha
 
+### 0.1.20
+- *BREAKING CHANGE*
+- Atlas count changed from 2 to 4
+- Atlas size changed from 8000 to 4000
+- Bit mask and order changed for sprites, layer headers and contents
+- Each sprite can use any atlas
+- Add structs to make working with sprites and layers easier
+
 ### 0.1.19
 - *BREAKING CHANGE*
 - Increase stack to 1000b and change it's address
