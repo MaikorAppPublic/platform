@@ -15,17 +15,17 @@ pub mod sizes {
     pub const SAVE_CONTROL: u16 = 1;
     pub const SPRITE: u16 = 5;
     //255 sprites, each taking 5 bytes
-    //(8b X, 8b Y, 9b tile id, 1b flipV, 1b flipH, 2b palette, 1b src size, 2b order, 1b half alpha, 1b double dst size, 2b rotation, 1b enabled, 1b atlas, 2b ?)
+    //(8b X, 8b Y, 8b tile id, 1b flipV, 1b flipH, 2b palette, 1b src size, 2b order, 1b half alpha, 1b rotated, 1b enabled, 2b atlas, 3b ?)
     pub const SPRITE_TABLE: u16 = SPRITE_COUNT as u16 * SPRITE;
-    //4 layers, each header is made of 3 bytes (8b X, 8b Y, 1b visible, 7b?)
+    //4 layers, each header is made of 3 bytes (8b X, 8b Y, 1b visible, 2b atlas)
     pub const LAYERS_HEADER: u16 = 3 * LAYER_COUNT as u16;
-    //4 layers, each made of 1320 (44x30) tiles, each made of 2 bytes (9b tile id, 1b flipV, 1b flipH, 2b palette, 1b half alpha, 2b rotation)
+    //4 layers, each made of 1320 (44x30) tiles, each made of 2 bytes (8b tile id, 1b flipV, 1b flipH, 2b palette, 1b half alpha, 1b rotated, 2b ?)
     pub const LAYERS_CONTENT: u16 = 1320 * 2 * LAYER_COUNT as u16;
     //4 palettes, each made of 16 colors, each color is 3 bytes
     pub const PALETTE: u16 = 16 * 3; //0,0,0 is transparent
     pub const PALETTES_TOTAL: u16 = PALETTE * PALETTE_COUNT as u16;
-    //25x20 (tiles) 200x160 (pixels) 100x160 (bytes) atlas of palette index (two colour IDs per byte)
-    pub const ATLAS: u16 = 100 * 80;
+    //25x10 (tiles) 200x160 (pixels) 100x160 (bytes) atlas of palette index (two colour IDs per byte)
+    pub const ATLAS: u16 = 100 * 40;
     pub const ATLAS_BANK_ID: u16 = 1;
     pub const STACK: u16 = 1000;
     pub const SP: u16 = 2;
@@ -51,7 +51,7 @@ pub mod sizes {
     pub const CONTROLLER_TABLE: u16 = 3 * 8;
     pub const CONTROLLER_TOTAL: u16 =
         CONTROLLER_TYPE + CONTROLLER_GRAPHICS + CONTROLLER_PALETTE + CONTROLLER_TABLE;
-    pub const ATLAS_TOTAL: u16 = ATLAS + ATLAS + ATLAS_BANK_ID + ATLAS_BANK_ID;
+    pub const ATLAS_TOTAL: u16 = (ATLAS + ATLAS_BANK_ID) * 4;
     pub const LAYER_TOTAL: u16 = LAYERS_CONTENT + LAYERS_HEADER;
     pub const GRAPHICS_TOTAL: u16 =
         LAYER_TOTAL + SPRITE_TABLE + PALETTES_TOTAL + ATLAS_TOTAL + CONTROLLER_TOTAL;
@@ -59,7 +59,7 @@ pub mod sizes {
         CODE + RAM + CODE_BANK_ID + RAM_BANK_ID + STACK + SP + FP + TIMERS + IRQ_INTERNAL + VLINE;
     pub const HARDWARE_TOTAL: u16 =
         SOUND + INPUT + SAVE_BANK_ID + SAVE_BANK + SAVE_CONTROL + DATETIME + RAND;
-    pub const RESERVED: u16 = 52;
+    pub const RESERVED: u16 = 50;
     pub const TOTAL: usize =
         (GRAPHICS_TOTAL + SYSTEM_TOTAL + HARDWARE_TOTAL) as usize + RESERVED as usize;
 }
@@ -74,7 +74,9 @@ pub mod address {
     pub const SAVE_BANK_ID: u16 = 0x8810; //34832
     pub const SAVE_BANK: u16 = 0x8811; //34833
     pub const ATLAS1: u16 = 0x9811; //38929
-    pub const ATLAS2: u16 = 0xB751; //46929
+    pub const ATLAS2: u16 = 0xA7B1; //42929
+    pub const ATLAS3: u16 = 0xB751; //46929
+    pub const ATLAS4: u16 = 0xC6F1; //50929
     pub const PALETTES: u16 = 0xD691; //54929
     pub const SPRITE_TABLE: u16 = 0xD751; //55121
     pub const LAYER_HEADERS: u16 = 0xDC4C; //56396
@@ -83,25 +85,27 @@ pub mod address {
     pub const RAM_BANK_ID: u16 = 0xFB46; //64326
     pub const ATLAS1_BANK_ID: u16 = 0xFB47; //64327
     pub const ATLAS2_BANK_ID: u16 = 0xFB48; //64328
-    pub const SP: u16 = 0xFB49; //64329
-    pub const FP: u16 = 0xFB4B; //64331
-    pub const TIMER_CONTROL: u16 = 0xFB4D; //64333
-    pub const TIMER_VALUE1: u16 = 0xFB4F; //64335
-    pub const TIMER_VALUE2: u16 = 0xFB50; //64336
-    pub const TIMER_VALUE3: u16 = 0xFB51; //64337
-    pub const TIMER_VALUE4: u16 = 0xFB52; //64338
-    pub const IRQ_RET_ADDR: u16 = 0xFB53; //64339
-    pub const IRQ_REG_DUMP: u16 = 0xFB55; //64341
-    pub const VLINE: u16 = 0xFB5D; //64349
-    pub const CONTROLLER_TYPE: u16 = 0xFB5E; //64350
-    pub const CONTROLLER_GRAPHICS: u16 = 0xFB5F; //64351
-    pub const CONTROLLER_PALETTE: u16 = 0xFBB7; //64439
-    pub const CONTROLLER_TABLE: u16 = 0xFBC3; //64451
-    pub const IRQ_CONTROL: u16 = 0xFBDB; //64475
-    pub const SAVE_CONTROL: u16 = 0xFBDC; //64476
-    pub const DATETIME: u16 = 0xFBDD; //64477
-    pub const RAND: u16 = 0xFBE3; //64483
-    pub const RESERVED: u16 = 0xFBE4; //64484
+    pub const ATLAS3_BANK_ID: u16 = 0xFB49; //64329
+    pub const ATLAS4_BANK_ID: u16 = 0xFB4A; //64330
+    pub const SP: u16 = 0xFB4B; //64331
+    pub const FP: u16 = 0xFB4D; //64333
+    pub const TIMER_CONTROL: u16 = 0xFB4F; //64335
+    pub const TIMER_VALUE1: u16 = 0xFB51; //64337
+    pub const TIMER_VALUE2: u16 = 0xFB52; //64338
+    pub const TIMER_VALUE3: u16 = 0xFB53; //64339
+    pub const TIMER_VALUE4: u16 = 0xFB54; //64340
+    pub const IRQ_RET_ADDR: u16 = 0xFB55; //64341
+    pub const IRQ_REG_DUMP: u16 = 0xFB57; //64343
+    pub const VLINE: u16 = 0xFB5F; //64351
+    pub const CONTROLLER_TYPE: u16 = 0xFB60; //64352
+    pub const CONTROLLER_GRAPHICS: u16 = 0xFB61; //64353
+    pub const CONTROLLER_PALETTE: u16 = 0xFBB9; //64441
+    pub const CONTROLLER_TABLE: u16 = 0xFBC5; //64453
+    pub const IRQ_CONTROL: u16 = 0xFBDD; //64477
+    pub const SAVE_CONTROL: u16 = 0xFBDE; //64478
+    pub const DATETIME: u16 = 0xFBDF; //64479
+    pub const RAND: u16 = 0xFBE5; //64485
+    pub const RESERVED: u16 = 0xFBE6; //64486
     pub const STACK: u16 = 0xFC18; //64536
     pub const MAX: u16 = 0xFFFF; //65535
 
@@ -170,7 +174,9 @@ mod test {
         );
         assert_eq!(address::ATLAS1, address::SAVE_BANK + sizes::SAVE_BANK);
         assert_eq!(address::ATLAS2, address::ATLAS1 + sizes::ATLAS);
-        assert_eq!(address::PALETTES, address::ATLAS2 + sizes::ATLAS);
+        assert_eq!(address::ATLAS3, address::ATLAS2 + sizes::ATLAS);
+        assert_eq!(address::ATLAS4, address::ATLAS3 + sizes::ATLAS);
+        assert_eq!(address::PALETTES, address::ATLAS4 + sizes::ATLAS);
         assert_eq!(
             address::SPRITE_TABLE,
             address::PALETTES + sizes::PALETTES_TOTAL
@@ -199,7 +205,15 @@ mod test {
             address::ATLAS2_BANK_ID,
             address::ATLAS1_BANK_ID + sizes::ATLAS_BANK_ID
         );
-        assert_eq!(address::SP, address::ATLAS2_BANK_ID + sizes::ATLAS_BANK_ID);
+        assert_eq!(
+            address::ATLAS3_BANK_ID,
+            address::ATLAS2_BANK_ID + sizes::ATLAS_BANK_ID
+        );
+        assert_eq!(
+            address::ATLAS4_BANK_ID,
+            address::ATLAS3_BANK_ID + sizes::ATLAS_BANK_ID
+        );
+        assert_eq!(address::SP, address::ATLAS4_BANK_ID + sizes::ATLAS_BANK_ID);
         assert_eq!(address::FP, address::SP + sizes::SP);
         assert_eq!(address::TIMER_CONTROL, address::FP + sizes::FP);
         assert_eq!(
