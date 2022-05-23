@@ -9,6 +9,7 @@ pub mod names;
 pub mod op_params;
 pub mod ops;
 pub mod registers;
+pub mod models;
 
 #[derive(Error, Debug)]
 pub enum LangError {
