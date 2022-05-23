@@ -23,21 +23,21 @@ pub mod id {
     use crate::LangError;
     use crate::LangError::{InvalidRegisterId, InvalidRegisterName};
 
-    pub const AH: usize = 0;
-    pub const AL: usize = 1;
-    pub const BH: usize = 2;
-    pub const BL: usize = 3;
-    pub const CH: usize = 4;
-    pub const CL: usize = 5;
-    pub const DH: usize = 6;
-    pub const DL: usize = 7;
-    pub const FLAGS: usize = 8;
-    pub const AX: usize = 9;
-    pub const BX: usize = 10;
-    pub const CX: usize = 11;
-    pub const DX: usize = 12;
+    pub const AH: u8 = 0;
+    pub const AL: u8 = 1;
+    pub const BH: u8 = 2;
+    pub const BL: u8 = 3;
+    pub const CH: u8 = 4;
+    pub const CL: u8 = 5;
+    pub const DH: u8 = 6;
+    pub const DL: u8 = 7;
+    pub const FLAGS: u8 = 8;
+    pub const AX: u8 = 9;
+    pub const BX: u8 = 10;
+    pub const CX: u8 = 11;
+    pub const DX: u8 = 12;
 
-    pub const fn size(value: usize) -> usize {
+    pub const fn size(value: u8) -> usize {
         if matches!(value, AX | BX | CX | DX) {
             2
         } else {
