@@ -46,7 +46,7 @@ pub mod id {
     }
 
     pub fn to_name(value: u8) -> Result<&'static str, LangError> {
-        let name = match value as usize {
+        let name = match value {
             AH => names::AH,
             AL => names::AL,
             BH => names::BH,
@@ -65,7 +65,7 @@ pub mod id {
         Ok(name)
     }
 
-    pub fn from_name(value: &str) -> Result<usize, LangError> {
+    pub fn from_name(value: &str) -> Result<u8, LangError> {
         let code = match value.to_ascii_uppercase().as_str() {
             names::AH => AH,
             names::AL => AL,
@@ -85,7 +85,7 @@ pub mod id {
         Ok(code)
     }
 
-    pub const ALL: [usize; 13] = [AH, AL, BH, BL, CH, CL, DH, DL, AX, BX, CX, DX, FLAGS];
+    pub const ALL: [u8; 13] = [AH, AL, BH, BL, CH, CL, DH, DL, AX, BX, CX, DX, FLAGS];
 }
 
 pub const SIZE: usize = 9;
