@@ -6,6 +6,7 @@ pub mod sizes {
     pub const CODE: u16 = CODE_BANK * 2;
     pub const RAM: u16 = RAM_BANK * 2;
     pub const SOUND: u16 = 30;
+    pub const WAVE_TABLE: u16 = 16;
     //Byte 0 is direction, byte 1 is action
     pub const INPUT: u16 = 2;
     pub const CODE_BANK_ID: u16 = 1;
@@ -57,9 +58,9 @@ pub mod sizes {
         LAYER_TOTAL + SPRITE_TABLE + PALETTES_TOTAL + ATLAS_TOTAL + CONTROLLER_TOTAL;
     pub const SYSTEM_TOTAL: u16 =
         CODE + RAM + CODE_BANK_ID + RAM_BANK_ID + STACK + SP + FP + TIMERS + IRQ_INTERNAL + VLINE;
-    pub const HARDWARE_TOTAL: u16 =
+    pub const HARDWARE_TOTAL: u16 = WAVE_TABLE+
         SOUND + INPUT + SAVE_BANK_ID + SAVE_BANK + SAVE_CONTROL + DATETIME + RAND;
-    pub const RESERVED: u16 = 50;
+    pub const RESERVED: u16 = 34;
     pub const TOTAL: usize =
         (GRAPHICS_TOTAL + SYSTEM_TOTAL + HARDWARE_TOTAL) as usize + RESERVED as usize;
 }
@@ -105,7 +106,8 @@ pub mod address {
     pub const SAVE_CONTROL: u16 = 0xFBDE; //64478
     pub const DATETIME: u16 = 0xFBDF; //64479
     pub const RAND: u16 = 0xFBE5; //64485
-    pub const RESERVED: u16 = 0xFBE6; //64486
+    pub const WAVE_TABLE: u16 = 0xFBE6; //64486
+    pub const RESERVED: u16 = 0xFBF6; //64502
     pub const STACK: u16 = 0xFC18; //64536
     pub const MAX: u16 = 0xFFFF; //65535
 
@@ -151,12 +153,15 @@ pub mod interrupt_flags {
 
 #[cfg(test)]
 mod test {
-    use crate::mem::sizes::TOTAL;
+    use crate::mem::sizes::{RESERVED, TOTAL};
     use crate::mem::{address, sizes};
 
     #[test]
     fn test_values() {
         assert_eq!(TOTAL, 65536);
+        //the system needs at least 6 bytes available for internal use
+        //currently this is just VM::execute_op()
+        assert!(RESERVED > 6);
     }
 
     #[test]
@@ -267,7 +272,8 @@ mod test {
             address::SAVE_CONTROL + sizes::SAVE_CONTROL
         );
         assert_eq!(address::RAND, address::DATETIME + sizes::DATETIME);
-        assert_eq!(address::RESERVED, address::RAND + sizes::RAND);
+        assert_eq!(address::WAVE_TABLE, address::RAND + sizes::RAND);
+        assert_eq!(address::RESERVED, address::WAVE_TABLE + sizes::WAVE_TABLE);
         assert_eq!(address::STACK, address::RESERVED + sizes::RESERVED);
         assert_eq!(65536, address::STACK as usize + sizes::STACK as usize);
         assert_eq!(address::MAX, 0xFFFF);
