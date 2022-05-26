@@ -1,5 +1,10 @@
 ## Pre-alpha
 
+### 0.1.22
+- *BREAKING CHANGE* (minor)
+- Change input::mask::* types to u8 from usize
+- Add wave table memory address and size
+
 ### 0.1.21
 - Add MSWP for easy sprite management
 

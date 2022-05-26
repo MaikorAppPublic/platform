@@ -1,19 +1,19 @@
 /// Values to check against when a button is pressed
 pub mod mask {
     /// Bit mask for mem::INPUT
-    pub const UP: usize = 0b00000001;
-    pub const DOWN: usize = 0b00000010;
-    pub const LEFT: usize = 0b00000100;
-    pub const RIGHT: usize = 0b00001000;
+    pub const UP: u8 = 0b00000001;
+    pub const DOWN: u8 = 0b00000010;
+    pub const LEFT: u8 = 0b00000100;
+    pub const RIGHT: u8 = 0b00001000;
 
     /// Bit mask for mem::INPUT+1
-    pub const A: usize = 0b00000001;
-    pub const B: usize = 0b00000010;
-    pub const START: usize = 0b00000100;
-    pub const L: usize = 0b00001000;
-    pub const R: usize = 0b00010000;
-    pub const X: usize = 0b00100000;
-    pub const Y: usize = 0b01000000;
+    pub const A: u8 = 0b00000001;
+    pub const B: u8 = 0b00000010;
+    pub const START: u8 = 0b00000100;
+    pub const L: u8 = 0b00001000;
+    pub const R: u8 = 0b00010000;
+    pub const X: u8 = 0b00100000;
+    pub const Y: u8 = 0b01000000;
 }
 
 /// Type of the active controller
