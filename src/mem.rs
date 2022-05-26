@@ -58,8 +58,8 @@ pub mod sizes {
         LAYER_TOTAL + SPRITE_TABLE + PALETTES_TOTAL + ATLAS_TOTAL + CONTROLLER_TOTAL;
     pub const SYSTEM_TOTAL: u16 =
         CODE + RAM + CODE_BANK_ID + RAM_BANK_ID + STACK + SP + FP + TIMERS + IRQ_INTERNAL + VLINE;
-    pub const HARDWARE_TOTAL: u16 = WAVE_TABLE+
-        SOUND + INPUT + SAVE_BANK_ID + SAVE_BANK + SAVE_CONTROL + DATETIME + RAND;
+    pub const HARDWARE_TOTAL: u16 =
+        WAVE_TABLE + SOUND + INPUT + SAVE_BANK_ID + SAVE_BANK + SAVE_CONTROL + DATETIME + RAND;
     pub const RESERVED: u16 = 34;
     pub const TOTAL: usize =
         (GRAPHICS_TOTAL + SYSTEM_TOTAL + HARDWARE_TOTAL) as usize + RESERVED as usize;
@@ -157,6 +157,7 @@ mod test {
     use crate::mem::{address, sizes};
 
     #[test]
+    #[allow(clippy::assertions_on_constants)] //these are used as safe guards against changes
     fn test_values() {
         assert_eq!(TOTAL, 65536);
         //the system needs at least 6 bytes available for internal use
