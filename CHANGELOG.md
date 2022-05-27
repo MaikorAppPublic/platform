@@ -1,5 +1,8 @@
 ## Pre-alpha
 
+### 0.1.23
+- Add RCL and RCR
+
 ### 0.1.22
 - *BREAKING CHANGE* (minor)
 - Change input::mask::* types to u8 from usize
@@ -11,7 +14,7 @@
 ### 0.1.20
 - *BREAKING CHANGE*
 - Atlas count changed from 2 to 4
-- Atlas size changed from 8000 to 4000
+- Atlas bank size changed from 8000 to 4000
 - Bit mask and order changed for sprites, layer headers and contents
 - Each sprite can use any atlas
 - Add structs to make working with sprites and layers easier

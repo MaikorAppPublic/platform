@@ -241,6 +241,18 @@ pub mod op {
     pub const MSWP_ADDR_REG_BYTE: &str = "MSWP";
     pub const MSWP_ADDR_ADDR_REG: &str = "MSWP";
     pub const MSWP_ADDR_ADDR_BYTE: &str = "MSWP";
+    pub const RCL_REG_NUM_BYTE: &str = "RCL.B";
+    pub const RCL_REG_REG_BYTE: &str = "RCL.B";
+    pub const RCL_REG_NUM_WORD: &str = "RCL.W";
+    pub const RCL_REG_REG_WORD: &str = "RCL.W";
+    pub const RCL_ADDR_BYTE: &str = "RCL.B";
+    pub const RCL_ADDR_WORD: &str = "RCL.W";
+    pub const RCR_REG_NUM_BYTE: &str = "RCR.B";
+    pub const RCR_REG_REG_BYTE: &str = "RCR.B";
+    pub const RCR_REG_NUM_WORD: &str = "RCR.W";
+    pub const RCR_REG_REG_WORD: &str = "RCR.W";
+    pub const RCR_ADDR_BYTE: &str = "RCR.B";
+    pub const RCR_ADDR_WORD: &str = "RCR.W";
 }
 
 /// Command name + size + args
@@ -474,4 +486,16 @@ pub mod full {
     pub const MSWP_ADDR_REG_BYTE: &str = "MSWP (A,R,B)";
     pub const MSWP_ADDR_ADDR_REG: &str = "MSWP (A,A,R)";
     pub const MSWP_ADDR_ADDR_BYTE: &str = "MSWP (A,A,B)";
+    pub const RCL_REG_NUM_BYTE: &str = "RCL.B (R,N)";
+    pub const RCL_REG_REG_BYTE: &str = "RCL.B (R,R)";
+    pub const RCL_REG_NUM_WORD: &str = "RCL.W (R,N)";
+    pub const RCL_REG_REG_WORD: &str = "RCL.W (R,R)";
+    pub const RCL_ADDR_BYTE: &str = "RCL.B (A)";
+    pub const RCL_ADDR_WORD: &str = "RCL.W (A)";
+    pub const RCR_REG_NUM_BYTE: &str = "RCR.B (R,N)";
+    pub const RCR_REG_REG_BYTE: &str = "RCR.B (R,R)";
+    pub const RCR_REG_NUM_WORD: &str = "RCR.W (R,N)";
+    pub const RCR_REG_REG_WORD: &str = "RCR.W (R,R)";
+    pub const RCR_ADDR_BYTE: &str = "RCR.B (A)";
+    pub const RCR_ADDR_WORD: &str = "RCR.W (A)";
 }

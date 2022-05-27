@@ -212,7 +212,20 @@ pub const JBC_REG_NUM: u8 = 0xCC;
 pub const JBS_REG_NUM: u8 = 0xCD;
 pub const JBC_ADDR_NUM: u8 = 0xCE;
 pub const JBS_ADDR_NUM: u8 = 0xCF;
-//unused 16 0xD0 - 0xDF
+
+pub const RCL_REG_NUM_BYTE: u8 = 0xD0;
+pub const RCL_REG_NUM_WORD: u8 = 0xD1;
+pub const RCL_REG_REG_BYTE: u8 = 0xD2;
+pub const RCL_REG_REG_WORD: u8 = 0xD3;
+pub const RCL_ADDR_BYTE: u8 = 0xD4;
+pub const RCL_ADDR_WORD: u8 = 0xD5;
+pub const RCR_REG_NUM_BYTE: u8 = 0xD6;
+pub const RCR_REG_NUM_WORD: u8 = 0xD7;
+pub const RCR_REG_REG_BYTE: u8 = 0xD8;
+pub const RCR_REG_REG_WORD: u8 = 0xD9;
+pub const RCR_ADDR_BYTE: u8 = 0xDA;
+pub const RCR_ADDR_WORD: u8 = 0xDB;
+//unused 4 0xDC - 0xDF
 
 pub const ADDC_REG_REG_BYTE: u8 = 0xE0;
 pub const ADDC_REG_REG_WORD: u8 = 0xE1;
@@ -238,7 +251,7 @@ pub const SUBC_ADDR_NUM_BYTE: u8 = 0xF4;
 pub const SUBC_ADDR_NUM_WORD: u8 = 0xF5;
 pub const SUBC_ADDR_ADDR_BYTE: u8 = 0xF6;
 pub const SUBC_ADDR_ADDR_WORD: u8 = 0xF7;
-//unused 8 0xF8 - 0xFD
+//unused 6 0xF8 - 0xFD
 
 pub const EHALT: u8 = 0xFE;
 pub const SLEEP: u8 = 0xFF;
@@ -276,7 +289,7 @@ pub const MAY_JMP_OPS: [u8; 20] = [
 ];
 
 #[rustfmt::skip]
-pub const ALL: [u8; 228] = [
+pub const ALL: [u8; 240] = [
     NOP, HALT,
     CALL_ADDR, CALL_REG, RET, RETI,
     CPY_REG_REG_BYTE, CPY_REG_REG_WORD, CPY_ADDR_REG_BYTE, CPY_ADDR_REG_WORD,
@@ -307,6 +320,10 @@ pub const ALL: [u8; 228] = [
     ROL_REG_REG_WORD, ROL_ADDR_BYTE, ROL_ADDR_WORD,
     ROR_REG_NUM_BYTE, ROR_REG_REG_BYTE, ROR_REG_NUM_WORD,
     ROR_REG_REG_WORD, ROR_ADDR_BYTE, ROR_ADDR_WORD,
+    RCL_REG_NUM_BYTE, RCL_REG_REG_BYTE, RCL_REG_NUM_WORD,
+    RCL_REG_REG_WORD, RCL_ADDR_BYTE, RCL_ADDR_WORD,
+    RCR_REG_NUM_BYTE, RCR_REG_REG_BYTE, RCR_REG_NUM_WORD,
+    RCR_REG_REG_WORD, RCR_ADDR_BYTE, RCR_ADDR_WORD,
     MUL_REG_REG_BYTE, MUL_REG_REG_WORD, MUL_REG_NUM_BYTE, MUL_REG_NUM_WORD,
     MUL_REG_ADDR_BYTE, MUL_REG_ADDR_WORD, MUL_ADDR_REG_BYTE, MUL_ADDR_REG_WORD,
     MUL_ADDR_NUM_BYTE, MUL_ADDR_NUM_WORD, MUL_ADDR_ADDR_BYTE, MUL_ADDR_ADDR_WORD,
