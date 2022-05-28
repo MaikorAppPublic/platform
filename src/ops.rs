@@ -225,7 +225,7 @@ pub const RCR_REG_REG_BYTE: u8 = 0xD8;
 pub const RCR_REG_REG_WORD: u8 = 0xD9;
 pub const RCR_ADDR_BYTE: u8 = 0xDA;
 pub const RCR_ADDR_WORD: u8 = 0xDB;
-//unused 4 0xDC - 0xDF
+//unused 2 0xDE - 0xDF
 
 pub const ADDC_REG_REG_BYTE: u8 = 0xE0;
 pub const ADDC_REG_REG_WORD: u8 = 0xE1;
@@ -251,7 +251,12 @@ pub const SUBC_ADDR_NUM_BYTE: u8 = 0xF4;
 pub const SUBC_ADDR_NUM_WORD: u8 = 0xF5;
 pub const SUBC_ADDR_ADDR_BYTE: u8 = 0xF6;
 pub const SUBC_ADDR_ADDR_WORD: u8 = 0xF7;
-//unused 6 0xF8 - 0xFD
+pub const BMUL_ADDR_ADDR: u8 = 0xF8;
+pub const BMUL_ADDR_NUM: u8 = 0xF9;
+pub const BMUL_ADDR_REG: u8 = 0xFA;
+pub const BMUL_REG_ADDR: u8 = 0xFB;
+pub const BMUL_REG_NUM: u8 = 0xFC;
+pub const BMUL_REG_REG: u8 = 0xFD;
 
 pub const EHALT: u8 = 0xFE;
 pub const SLEEP: u8 = 0xFF;

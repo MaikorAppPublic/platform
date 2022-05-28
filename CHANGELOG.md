@@ -1,5 +1,9 @@
 ## Pre-alpha
 
+### 0.1.24
+- Fix bug with `is_special_memory`
+- Add BMUL
+
 ### 0.1.23
 - Add RCL and RCR
 

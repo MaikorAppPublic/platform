@@ -327,6 +327,14 @@ pub fn op_codes(text: &str) -> Result<Vec<u8>, LangError> {
             ops::MSWP_ADDR_ADDR_REG,
             ops::MSWP_ADDR_ADDR_BYTE,
         ],
+        "BMUL" => vec![
+            ops::BMUL_ADDR_ADDR,
+            ops::BMUL_ADDR_REG,
+            ops::BMUL_ADDR_NUM,
+            ops::BMUL_REG_ADDR,
+            ops::BMUL_REG_REG,
+            ops::BMUL_REG_NUM,
+        ],
         _ => return Err(InvalidInstructionName(text.to_string())),
     };
     Ok(code)
@@ -574,6 +582,12 @@ pub fn op_name(op: u8) -> Result<&'static str, LangError> {
         ops::MSWP_ADDR_ADDR_BYTE => names::op::MSWP_ADDR_ADDR_BYTE,
         ops::MSWP_ADDR_REG_REG => names::op::MSWP_ADDR_REG_REG,
         ops::MSWP_ADDR_REG_BYTE => names::op::MSWP_ADDR_REG_BYTE,
+        ops::BMUL_ADDR_ADDR => names::op::BMUL_ADDR_ADDR,
+        ops::BMUL_ADDR_REG => names::op::BMUL_ADDR_REG,
+        ops::BMUL_ADDR_NUM => names::op::BMUL_ADDR_NUM,
+        ops::BMUL_REG_ADDR => names::op::BMUL_REG_ADDR,
+        ops::BMUL_REG_REG => names::op::BMUL_REG_REG,
+        ops::BMUL_REG_NUM => names::op::BMUL_REG_NUM,
         _ => return Err(InvalidInstructionCode(op)),
     };
     Ok(name)
@@ -821,6 +835,12 @@ pub fn op_desc(op: u8) -> Result<&'static str, LangError> {
         ops::MSWP_ADDR_ADDR_BYTE => names::full::MSWP_ADDR_ADDR_BYTE,
         ops::MSWP_ADDR_REG_REG => names::full::MSWP_ADDR_REG_REG,
         ops::MSWP_ADDR_REG_BYTE => names::full::MSWP_ADDR_REG_BYTE,
+        ops::BMUL_ADDR_ADDR => names::full::BMUL_ADDR_ADDR,
+        ops::BMUL_ADDR_REG => names::full::BMUL_ADDR_REG,
+        ops::BMUL_ADDR_NUM => names::full::BMUL_ADDR_NUM,
+        ops::BMUL_REG_ADDR => names::full::BMUL_REG_ADDR,
+        ops::BMUL_REG_REG => names::full::BMUL_REG_REG,
+        ops::BMUL_REG_NUM => names::full::BMUL_REG_NUM,
         _ => return Err(InvalidInstructionCode(op)),
     };
     Ok(name)

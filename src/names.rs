@@ -253,6 +253,12 @@ pub mod op {
     pub const RCR_REG_REG_WORD: &str = "RCR.W";
     pub const RCR_ADDR_BYTE: &str = "RCR.B";
     pub const RCR_ADDR_WORD: &str = "RCR.W";
+    pub const BMUL_ADDR_ADDR: &str = "BMUL";
+    pub const BMUL_ADDR_REG: &str = "BMUL";
+    pub const BMUL_ADDR_NUM: &str = "BMUL";
+    pub const BMUL_REG_ADDR: &str = "BMUL";
+    pub const BMUL_REG_REG: &str = "BMUL";
+    pub const BMUL_REG_NUM: &str = "BMUL";
 }
 
 /// Command name + size + args
@@ -498,4 +504,10 @@ pub mod full {
     pub const RCR_REG_REG_WORD: &str = "RCR.W (R,R)";
     pub const RCR_ADDR_BYTE: &str = "RCR.B (A)";
     pub const RCR_ADDR_WORD: &str = "RCR.W (A)";
+    pub const BMUL_ADDR_ADDR: &str = "BMUL (A,A)";
+    pub const BMUL_ADDR_REG: &str = "BMUL (A,R)";
+    pub const BMUL_ADDR_NUM: &str = "BMUL (A,N)";
+    pub const BMUL_REG_ADDR: &str = "BMUL (R,A)";
+    pub const BMUL_REG_REG: &str = "BMUL (R,R)";
+    pub const BMUL_REG_NUM: &str = "BMUL (R,N)";
 }
