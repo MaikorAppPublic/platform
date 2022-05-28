@@ -1,5 +1,8 @@
 ## Pre-alpha
 
+### 0.1.25
+- Actually add BMUL to ALL
+
 ### 0.1.24
 - Fix bug with `is_special_memory`
 - Add BMUL
