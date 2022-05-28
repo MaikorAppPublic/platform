@@ -128,6 +128,8 @@ pub mod address {
                 | RAM_BANK_ID
                 | ATLAS1_BANK_ID
                 | ATLAS2_BANK_ID
+                | ATLAS3_BANK_ID
+                | ATLAS4_BANK_ID
                 | TIMER_CONTROL
                 | SAVE_CONTROL
                 | SAVE_BANK_ID
