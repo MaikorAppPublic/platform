@@ -1,6 +1,6 @@
 [package]
 name = "maikor-platform"
-version = "0.1.26"
+version = "0.1.27"
 edition = "2021"
 authors = ["Ray Britton <raybritton@pm.me>"]
 description = "Maikor Platform specifications (language, addresses, etc)"

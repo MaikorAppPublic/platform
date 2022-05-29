@@ -1,5 +1,8 @@
 ## Pre-alpha
 
+### 0.1.27
+- Move interrupts addresses to start at x200 and reduce size to 32 bytes
+
 ### 0.1.26
 - *BREAKING CHANGE*
 - Split code and ram banks into 2
