@@ -133,12 +133,12 @@ pub mod address {
     pub const MAX: u16 = 0xFFFF; //65535
 
     pub mod interrupt {
-        pub const IRQ_INPUT: u16 = 0x0500;
-        pub const IRQ_LINE_DRAW: u16 = 0x0540;
-        pub const IRQ_SCREEN_DRAW: u16 = 0x0800;
-        pub const IRQ_TIMER: u16 = 0x05C0;
-        pub const IRQ_CONTROLLER: u16 = 0x0600;
-        pub const IRQ_DATETIME: u16 = 0x0640;
+        pub const IRQ_INPUT: u16 = 0x0200; //512
+        pub const IRQ_LINE_DRAW: u16 = 0x0220; //544
+        pub const IRQ_SCREEN_DRAW: u16 = 0x0240; //576
+        pub const IRQ_TIMER: u16 = 0x0260; //608
+        pub const IRQ_CONTROLLER: u16 = 0x0280; //640
+        pub const IRQ_DATETIME: u16 = 0x02A0; //672
     }
 
     /// Changing values at 'special' addresses can take many more cycles than normal
