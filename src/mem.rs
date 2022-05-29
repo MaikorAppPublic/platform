@@ -1,10 +1,11 @@
 pub mod sizes {
     use crate::constants::{LAYER_COUNT, PALETTE_COUNT, SPRITE_COUNT};
+    use crate::input::controller_type;
 
-    pub const CODE_BANK: u16 = 8700;
-    pub const RAM_BANK: u16 = 8700;
-    pub const CODE: u16 = CODE_BANK * 2;
-    pub const RAM: u16 = RAM_BANK * 2;
+    pub const CODE_BANK: u16 = 4200;
+    pub const RAM_BANK: u16 = 4200;
+    pub const MAIN_CODE: u16 = 9000;
+    pub const MAIN_RAM: u16 = 9000;
     pub const SOUND: u16 = 30;
     pub const WAVE_TABLE: u16 = 16;
     //Byte 0 is direction, byte 1 is action
@@ -46,30 +47,48 @@ pub mod sizes {
     //8 bytes per sprite (4 pixels per byte)
     pub const CONTROLLER_GRAPHIC: u16 = 8;
     pub const CONTROLLER_GRAPHICS: u16 = 11 * CONTROLLER_GRAPHIC;
-    pub const CONTROLLER_PALETTE: u16 = 3 * 4; //0,0,0 is transparent
-                                               //8 sprites, each taking 3 bytes
-                                               //(bits) 8 x, 8 y, 1 enabled, 4 id, 3 ?
-    pub const CONTROLLER_TABLE: u16 = 3 * 8;
+    //0,0,0 is transparent
+    pub const CONTROLLER_PALETTE: u16 = 3 * 4;
+    //8 sprites, each taking 3 bytes
+    //(bits) 8 x, 8 y, 1 enabled, 4 id, 3 ?
+    pub const CONTROLLER_TABLE: u16 = 3 * controller_type::COUNT as u16;
     pub const CONTROLLER_TOTAL: u16 =
         CONTROLLER_TYPE + CONTROLLER_GRAPHICS + CONTROLLER_PALETTE + CONTROLLER_TABLE;
     pub const ATLAS_TOTAL: u16 = (ATLAS + ATLAS_BANK_ID) * 4;
     pub const LAYER_TOTAL: u16 = LAYERS_CONTENT + LAYERS_HEADER;
     pub const GRAPHICS_TOTAL: u16 =
         LAYER_TOTAL + SPRITE_TABLE + PALETTES_TOTAL + ATLAS_TOTAL + CONTROLLER_TOTAL;
-    pub const SYSTEM_TOTAL: u16 =
-        CODE + RAM + CODE_BANK_ID + RAM_BANK_ID + STACK + SP + FP + TIMERS + IRQ_INTERNAL + VLINE;
+    pub const SYSTEM_TOTAL: u16 = MAIN_CODE
+        + MAIN_RAM
+        + CODE_BANK
+        + CODE_BANK
+        + RAM_BANK
+        + RAM_BANK
+        + CODE_BANK_ID
+        + CODE_BANK_ID
+        + RAM_BANK_ID
+        + RAM_BANK_ID
+        + STACK
+        + SP
+        + FP
+        + TIMERS
+        + IRQ_INTERNAL
+        + VLINE;
     pub const HARDWARE_TOTAL: u16 =
         WAVE_TABLE + SOUND + INPUT + SAVE_BANK_ID + SAVE_BANK + SAVE_CONTROL + DATETIME + RAND;
-    pub const RESERVED: u16 = 34;
+    pub const RESERVED: u16 = 29;
     pub const TOTAL: usize =
         (GRAPHICS_TOTAL + SYSTEM_TOTAL + HARDWARE_TOTAL) as usize + RESERVED as usize;
 }
 
+#[rustfmt::skip]
 pub mod address {
     pub const CODE: u16 = 0x0; //0
-    pub const CODE_BANK: u16 = 0x21FC; //8700
+    pub const CODE_BANK_1: u16 = 0x2328; //9000
+    pub const CODE_BANK_2: u16 = 0x3390; //13200
     pub const RAM: u16 = 0x43F8; //17400
-    pub const RAM_BANK: u16 = 0x65F4; //26100
+    pub const RAM_BANK_1: u16 = 0x6720; //26400
+    pub const RAM_BANK_2: u16 = 0x7788; //30600
     pub const INPUT: u16 = 0x87F0; //34800
     pub const SOUND: u16 = 0x87F2; //34802
     pub const SAVE_BANK_ID: u16 = 0x8810; //34832
@@ -82,8 +101,8 @@ pub mod address {
     pub const SPRITE_TABLE: u16 = 0xD751; //55121
     pub const LAYER_HEADERS: u16 = 0xDC4C; //56396
     pub const LAYERS: u16 = 0xDC55; //56405
-    pub const CODE_BANK_ID: u16 = 0xFB45; //64325
-    pub const RAM_BANK_ID: u16 = 0xFB46; //64326
+    pub const CODE_BANK_1_ID: u16 = 0xFB45; //64325
+    pub const RAM_BANK_1_ID: u16 = 0xFB46; //64326
     pub const ATLAS1_BANK_ID: u16 = 0xFB47; //64327
     pub const ATLAS2_BANK_ID: u16 = 0xFB48; //64328
     pub const ATLAS3_BANK_ID: u16 = 0xFB49; //64329
@@ -102,12 +121,14 @@ pub mod address {
     pub const CONTROLLER_GRAPHICS: u16 = 0xFB61; //64353
     pub const CONTROLLER_PALETTE: u16 = 0xFBB9; //64441
     pub const CONTROLLER_TABLE: u16 = 0xFBC5; //64453
-    pub const IRQ_CONTROL: u16 = 0xFBDD; //64477
-    pub const SAVE_CONTROL: u16 = 0xFBDE; //64478
-    pub const DATETIME: u16 = 0xFBDF; //64479
-    pub const RAND: u16 = 0xFBE5; //64485
-    pub const WAVE_TABLE: u16 = 0xFBE6; //64486
-    pub const RESERVED: u16 = 0xFBF6; //64502
+    pub const IRQ_CONTROL: u16 = 0xFBE0; //64480
+    pub const SAVE_CONTROL: u16 = 0xFBE1; //64481
+    pub const DATETIME: u16 = 0xFBE2; //64482
+    pub const RAND: u16 = 0xFBE8; //64488
+    pub const WAVE_TABLE: u16 = 0xFBE9; //64489
+    pub const CODE_BANK_2_ID: u16 = 0xFBF9; //64505
+    pub const RAM_BANK_2_ID: u16 = 0xFBFA; //64506
+    pub const RESERVED: u16 = 0xFBFB; //64507
     pub const STACK: u16 = 0xFC18; //64536
     pub const MAX: u16 = 0xFFFF; //65535
 
@@ -124,8 +145,10 @@ pub mod address {
     pub const fn is_special_memory(address: u16) -> bool {
         matches!(
             address,
-            CODE_BANK_ID
-                | RAM_BANK_ID
+            CODE_BANK_1_ID
+                | RAM_BANK_1_ID
+            |CODE_BANK_2_ID
+                | RAM_BANK_2_ID
                 | ATLAS1_BANK_ID
                 | ATLAS2_BANK_ID
                 | ATLAS3_BANK_ID
@@ -170,10 +193,15 @@ mod test {
     #[test]
     fn test_sizes_address() {
         assert_eq!(address::CODE, 0);
-        assert_eq!(address::CODE_BANK, address::CODE + sizes::CODE_BANK);
-        assert_eq!(address::RAM, address::CODE_BANK + sizes::CODE_BANK);
-        assert_eq!(address::RAM_BANK, address::RAM + sizes::RAM_BANK);
-        assert_eq!(address::INPUT, address::RAM_BANK + sizes::RAM_BANK);
+        assert_eq!(address::CODE_BANK_1, address::CODE + sizes::MAIN_CODE);
+        assert_eq!(
+            address::CODE_BANK_2,
+            address::CODE_BANK_1 + sizes::CODE_BANK
+        );
+        assert_eq!(address::RAM, address::CODE_BANK_2 + sizes::CODE_BANK);
+        assert_eq!(address::RAM_BANK_1, address::RAM + sizes::MAIN_RAM);
+        assert_eq!(address::RAM_BANK_2, address::RAM_BANK_1 + sizes::RAM_BANK);
+        assert_eq!(address::INPUT, address::RAM_BANK_2 + sizes::RAM_BANK);
         assert_eq!(address::SOUND, address::INPUT + sizes::INPUT);
         assert_eq!(address::SAVE_BANK_ID, address::SOUND + sizes::SOUND);
         assert_eq!(
@@ -198,16 +226,16 @@ mod test {
             address::LAYER_HEADERS + sizes::LAYERS_HEADER
         );
         assert_eq!(
-            address::CODE_BANK_ID,
+            address::CODE_BANK_1_ID,
             address::LAYERS + sizes::LAYERS_CONTENT
         );
         assert_eq!(
-            address::RAM_BANK_ID,
-            address::CODE_BANK_ID + sizes::CODE_BANK_ID
+            address::RAM_BANK_1_ID,
+            address::CODE_BANK_1_ID + sizes::CODE_BANK_ID
         );
         assert_eq!(
             address::ATLAS1_BANK_ID,
-            address::RAM_BANK_ID + sizes::RAM_BANK_ID
+            address::RAM_BANK_1_ID + sizes::RAM_BANK_ID
         );
         assert_eq!(
             address::ATLAS2_BANK_ID,
@@ -276,8 +304,19 @@ mod test {
         );
         assert_eq!(address::RAND, address::DATETIME + sizes::DATETIME);
         assert_eq!(address::WAVE_TABLE, address::RAND + sizes::RAND);
-        assert_eq!(address::RESERVED, address::WAVE_TABLE + sizes::WAVE_TABLE);
-        assert_eq!(address::STACK, address::RESERVED + sizes::RESERVED);
+        assert_eq!(
+            address::CODE_BANK_2_ID,
+            address::WAVE_TABLE + sizes::WAVE_TABLE
+        );
+        assert_eq!(
+            address::RAM_BANK_2_ID,
+            address::CODE_BANK_2_ID + sizes::CODE_BANK_ID
+        );
+        assert_eq!(
+            address::RESERVED,
+            address::RAM_BANK_2_ID + sizes::RAM_BANK_ID
+        );
+        assert_eq!(address::STACK, address::RESERVED + RESERVED);
         assert_eq!(65536, address::STACK as usize + sizes::STACK as usize);
         assert_eq!(address::MAX, 0xFFFF);
     }

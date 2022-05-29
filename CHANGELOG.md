@@ -1,5 +1,10 @@
 ## Pre-alpha
 
+### 0.1.26
+- *BREAKING CHANGE*
+- Split code and ram banks into 2
+- Add one extra controller sprite to table
+
 ### 0.1.25
 - Actually add BMUL to ALL
 

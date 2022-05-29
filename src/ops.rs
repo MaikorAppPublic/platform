@@ -225,7 +225,7 @@ pub const RCR_REG_REG_BYTE: u8 = 0xD8;
 pub const RCR_REG_REG_WORD: u8 = 0xD9;
 pub const RCR_ADDR_BYTE: u8 = 0xDA;
 pub const RCR_ADDR_WORD: u8 = 0xDB;
-//unused 2 0xDE - 0xDF
+//unused 4 0xDC - 0xDF
 
 pub const ADDC_REG_REG_BYTE: u8 = 0xE0;
 pub const ADDC_REG_REG_WORD: u8 = 0xE1;
