@@ -43,17 +43,12 @@ pub mod sizes {
     //year (0=2000), month (1 = jan), day, hour (24), min, sec
     pub const DATETIME: u16 = 6;
     pub const RAND: u16 = 1;
-    pub const CONTROLLER_TYPE: u16 = 1;
-    //8 bytes per sprite (4 pixels per byte)
-    pub const CONTROLLER_GRAPHIC: u16 = 8;
-    pub const CONTROLLER_GRAPHICS: u16 = 11 * CONTROLLER_GRAPHIC;
     //0,0,0 is transparent
-    pub const CONTROLLER_PALETTE: u16 = 3 * 4;
+    pub const CONTROLLER_PALETTE: u16 = 3 * 8;
     //8 sprites, each taking 3 bytes
     //(bits) 8 x, 8 y, 1 enabled, 4 id, 3 ?
     pub const CONTROLLER_TABLE: u16 = 3 * controller_type::COUNT as u16;
-    pub const CONTROLLER_TOTAL: u16 =
-        CONTROLLER_TYPE + CONTROLLER_GRAPHICS + CONTROLLER_PALETTE + CONTROLLER_TABLE;
+    pub const CONTROLLER_TOTAL: u16 = CONTROLLER_PALETTE + CONTROLLER_TABLE;
     pub const ATLAS_TOTAL: u16 = (ATLAS + ATLAS_BANK_ID) * 4;
     pub const LAYER_TOTAL: u16 = LAYERS_CONTENT + LAYERS_HEADER;
     pub const GRAPHICS_TOTAL: u16 =
@@ -76,7 +71,7 @@ pub mod sizes {
         + VLINE;
     pub const HARDWARE_TOTAL: u16 =
         WAVE_TABLE + SOUND + INPUT + SAVE_BANK_ID + SAVE_BANK + SAVE_CONTROL + DATETIME + RAND;
-    pub const RESERVED: u16 = 29;
+    pub const RESERVED: u16 = 106;
     pub const TOTAL: usize =
         (GRAPHICS_TOTAL + SYSTEM_TOTAL + HARDWARE_TOTAL) as usize + RESERVED as usize;
 }
@@ -117,28 +112,25 @@ pub mod address {
     pub const IRQ_RET_ADDR: u16 = 0xFB55; //64341
     pub const IRQ_REG_DUMP: u16 = 0xFB57; //64343
     pub const VLINE: u16 = 0xFB5F; //64351
-    pub const CONTROLLER_TYPE: u16 = 0xFB60; //64352
-    pub const CONTROLLER_GRAPHICS: u16 = 0xFB61; //64353
-    pub const CONTROLLER_PALETTE: u16 = 0xFBB9; //64441
-    pub const CONTROLLER_TABLE: u16 = 0xFBC5; //64453
-    pub const IRQ_CONTROL: u16 = 0xFBE0; //64480
-    pub const SAVE_CONTROL: u16 = 0xFBE1; //64481
-    pub const DATETIME: u16 = 0xFBE2; //64482
-    pub const RAND: u16 = 0xFBE8; //64488
-    pub const WAVE_TABLE: u16 = 0xFBE9; //64489
-    pub const CODE_BANK_2_ID: u16 = 0xFBF9; //64505
-    pub const RAM_BANK_2_ID: u16 = 0xFBFA; //64506
-    pub const RESERVED: u16 = 0xFBFB; //64507
+    pub const CONTROLLER_PALETTE: u16 = 0xFB60; //64352
+    pub const CONTROLLER_TABLE: u16 = 0xFB78; //64376
+    pub const IRQ_CONTROL: u16 = 0xFB93; //64403
+    pub const SAVE_CONTROL: u16 = 0xFB94; //64404
+    pub const DATETIME: u16 = 0xFB95; //64405
+    pub const RAND: u16 = 0xFB9B; //64411
+    pub const WAVE_TABLE: u16 = 0xFB9C; //64412
+    pub const CODE_BANK_2_ID: u16 = 0xFBAC; //64428
+    pub const RAM_BANK_2_ID: u16 = 0xFBAD; //64429
+    pub const RESERVED: u16 = 0xFBAE; //64430
     pub const STACK: u16 = 0xFC18; //64536
     pub const MAX: u16 = 0xFFFF; //65535
 
     pub mod interrupt {
         pub const IRQ_INPUT: u16 = 0x0200; //512
-        pub const IRQ_LINE_DRAW: u16 = 0x0220; //544
-        pub const IRQ_SCREEN_DRAW: u16 = 0x0240; //576
-        pub const IRQ_TIMER: u16 = 0x0260; //608
-        pub const IRQ_CONTROLLER: u16 = 0x0280; //640
-        pub const IRQ_DATETIME: u16 = 0x02A0; //672
+        pub const IRQ_SCREEN_DRAW: u16 = 0x0220; //544
+        pub const IRQ_TIMER: u16 = 0x0240; //576
+        pub const IRQ_CONTROLLER: u16 = 0x0260; //608
+        pub const IRQ_DATETIME: u16 = 0x0280; //640
     }
 
     /// Changing values at 'special' addresses can take many more cycles than normal
@@ -157,7 +149,6 @@ pub mod address {
                 | SAVE_CONTROL
                 | SAVE_BANK_ID
                 | SOUND
-                | CONTROLLER_TYPE
         )
     }
 }
@@ -169,11 +160,10 @@ pub mod save_flags {
 
 pub mod interrupt_flags {
     pub const IRQ_INPUT: u8 = 0;
-    pub const IRQ_LINE_DRAW: u8 = 1;
-    pub const IRQ_SCREEN_DRAW: u8 = 2;
-    pub const IRQ_TIMER: u8 = 3;
-    pub const IRQ_CONTROLLER: u8 = 4;
-    pub const IRQ_DATETIME: u8 = 5;
+    pub const IRQ_SCREEN_DRAW: u8 = 1;
+    pub const IRQ_TIMER: u8 = 2;
+    pub const IRQ_DATETIME: u8 = 3;
+    pub const IRQ_CONTROLLER: u8 = 3;
 }
 
 #[cfg(test)]
@@ -277,15 +267,7 @@ mod test {
             address::IRQ_RET_ADDR + sizes::IRQ_RET_ADDR
         );
         assert_eq!(address::VLINE, address::IRQ_REG_DUMP + sizes::IRQ_REG_DUMP);
-        assert_eq!(address::CONTROLLER_TYPE, address::VLINE + sizes::VLINE);
-        assert_eq!(
-            address::CONTROLLER_GRAPHICS,
-            address::CONTROLLER_TYPE + sizes::CONTROLLER_TYPE
-        );
-        assert_eq!(
-            address::CONTROLLER_PALETTE,
-            address::CONTROLLER_GRAPHICS + sizes::CONTROLLER_GRAPHICS
-        );
+        assert_eq!(address::CONTROLLER_PALETTE, address::VLINE + sizes::VLINE);
         assert_eq!(
             address::CONTROLLER_TABLE,
             address::CONTROLLER_PALETTE + sizes::CONTROLLER_PALETTE

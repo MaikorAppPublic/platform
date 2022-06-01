@@ -1,5 +1,15 @@
 ## Pre-alpha
 
+### 0.1.28
+- *BREAKING CHANGE*
+- Due to miscalculation controller graphics memory size was half of what was needed and there isn't enough memory left to fix this, so:
+  - Controller graphics and controller type memory addresses removed
+  - Controller type interrupt still works
+  - Controller graphics palette increased to 8 colours
+  - Controller graphics will be drawn by VM, controlled by controller graphics table
+  - Memory addresses of later sections moved
+- Removed line drawn interrupt as it won't be used
+
 ### 0.1.27
 - Move interrupts addresses to start at x200 and reduce size to 32 bytes
 

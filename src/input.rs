@@ -33,23 +33,6 @@ pub mod controller_type {
     pub const COUNT: usize = 9;
 }
 
-/// Address of graphics in memory
-pub mod input_address {
-    use crate::mem::{address, sizes};
-
-    pub const UP: u16 = address::CONTROLLER_GRAPHICS;
-    pub const DOWN: u16 = address::CONTROLLER_GRAPHICS + sizes::CONTROLLER_GRAPHIC;
-    pub const LEFT: u16 = address::CONTROLLER_GRAPHICS + sizes::CONTROLLER_GRAPHIC * 2;
-    pub const RIGHT: u16 = address::CONTROLLER_GRAPHICS + sizes::CONTROLLER_GRAPHIC * 3;
-    pub const START: u16 = address::CONTROLLER_GRAPHICS + sizes::CONTROLLER_GRAPHIC * 4;
-    pub const A: u16 = address::CONTROLLER_GRAPHICS + sizes::CONTROLLER_GRAPHIC * 5;
-    pub const B: u16 = address::CONTROLLER_GRAPHICS + sizes::CONTROLLER_GRAPHIC * 6;
-    pub const X: u16 = address::CONTROLLER_GRAPHICS + sizes::CONTROLLER_GRAPHIC * 7;
-    pub const Y: u16 = address::CONTROLLER_GRAPHICS + sizes::CONTROLLER_GRAPHIC * 8;
-    pub const L: u16 = address::CONTROLLER_GRAPHICS + sizes::CONTROLLER_GRAPHIC * 9;
-    pub const R: u16 = address::CONTROLLER_GRAPHICS + sizes::CONTROLLER_GRAPHIC * 10;
-}
-
 /// Mask for controller sprite control byte
 pub mod control {
     pub const ENABLED: u8 = 0b10000000;
