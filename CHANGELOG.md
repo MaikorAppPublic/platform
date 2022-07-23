@@ -1,5 +1,9 @@
 ## Pre-alpha
 
+### 0.1.29
+- Add line draw interrupt (this will fire 60x per frame, but interval isn't guaranteed)
+- Fix bugs with interrupts
+
 ### 0.1.28
 - *BREAKING CHANGE*
 - Due to miscalculation controller graphics memory size was half of what was needed and there isn't enough memory left to fix this, so:
@@ -11,7 +15,7 @@
 - Removed line drawn interrupt as it won't be used
 
 ### 0.1.27
-- Move interrupts addresses to start at x200 and reduce size to 32 bytes
+- Move interrupts addresses to start at x200 and reduce size to 32 bytes per interrupt
 
 ### 0.1.26
 - *BREAKING CHANGE*

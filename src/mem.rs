@@ -111,16 +111,16 @@ pub mod address {
     pub const TIMER_VALUE4: u16 = 0xFB54; //64340
     pub const IRQ_RET_ADDR: u16 = 0xFB55; //64341
     pub const IRQ_REG_DUMP: u16 = 0xFB57; //64343
-    pub const VLINE: u16 = 0xFB5F; //64351
-    pub const CONTROLLER_PALETTE: u16 = 0xFB60; //64352
-    pub const CONTROLLER_TABLE: u16 = 0xFB78; //64376
-    pub const IRQ_CONTROL: u16 = 0xFB93; //64403
-    pub const SAVE_CONTROL: u16 = 0xFB94; //64404
-    pub const DATETIME: u16 = 0xFB95; //64405
-    pub const RAND: u16 = 0xFB9B; //64411
-    pub const WAVE_TABLE: u16 = 0xFB9C; //64412
-    pub const CODE_BANK_2_ID: u16 = 0xFBAC; //64428
-    pub const RAM_BANK_2_ID: u16 = 0xFBAD; //64429
+    pub const CONTROLLER_PALETTE: u16 = 0xFB5F; //64351
+    pub const CONTROLLER_TABLE: u16 = 0xFB77; //64375
+    pub const IRQ_CONTROL: u16 = 0xFB92; //64402
+    pub const SAVE_CONTROL: u16 = 0xFB93; //64403
+    pub const DATETIME: u16 = 0xFB94; //64404
+    pub const RAND: u16 = 0xFB9A; //64410
+    pub const WAVE_TABLE: u16 = 0xFB9B; //64411
+    pub const CODE_BANK_2_ID: u16 = 0xFBAB; //64427
+    pub const RAM_BANK_2_ID: u16 = 0xFBAC; //64428
+    pub const VLINE: u16 = 0xFBAD; //64429
     pub const RESERVED: u16 = 0xFBAE; //64430
     pub const STACK: u16 = 0xFC18; //64536
     pub const MAX: u16 = 0xFFFF; //65535
@@ -131,6 +131,7 @@ pub mod address {
         pub const IRQ_TIMER: u16 = 0x0240; //576
         pub const IRQ_CONTROLLER: u16 = 0x0260; //608
         pub const IRQ_DATETIME: u16 = 0x0280; //640
+        pub const IRQ_LINE_DRAW: u16 = 0x02A0; //672
     }
 
     /// Changing values at 'special' addresses can take many more cycles than normal
@@ -159,11 +160,12 @@ pub mod save_flags {
 }
 
 pub mod interrupt_flags {
-    pub const IRQ_INPUT: u8 = 0;
     pub const IRQ_SCREEN_DRAW: u8 = 1;
     pub const IRQ_TIMER: u8 = 2;
-    pub const IRQ_DATETIME: u8 = 3;
-    pub const IRQ_CONTROLLER: u8 = 3;
+    pub const IRQ_DATETIME: u8 = 4;
+    pub const IRQ_CONTROLLER: u8 = 8;
+    pub const IRQ_INPUT: u8 = 16;
+    pub const IRQ_LINE_DRAW: u8 = 32;
 }
 
 #[cfg(test)]
@@ -266,8 +268,10 @@ mod test {
             address::IRQ_REG_DUMP,
             address::IRQ_RET_ADDR + sizes::IRQ_RET_ADDR
         );
-        assert_eq!(address::VLINE, address::IRQ_REG_DUMP + sizes::IRQ_REG_DUMP);
-        assert_eq!(address::CONTROLLER_PALETTE, address::VLINE + sizes::VLINE);
+        assert_eq!(
+            address::CONTROLLER_PALETTE,
+            address::IRQ_REG_DUMP + sizes::IRQ_REG_DUMP
+        );
         assert_eq!(
             address::CONTROLLER_TABLE,
             address::CONTROLLER_PALETTE + sizes::CONTROLLER_PALETTE
@@ -294,10 +298,8 @@ mod test {
             address::RAM_BANK_2_ID,
             address::CODE_BANK_2_ID + sizes::CODE_BANK_ID
         );
-        assert_eq!(
-            address::RESERVED,
-            address::RAM_BANK_2_ID + sizes::RAM_BANK_ID
-        );
+        assert_eq!(address::VLINE, address::RAM_BANK_2_ID + sizes::RAM_BANK_ID);
+        assert_eq!(address::RESERVED, address::VLINE + sizes::VLINE);
         assert_eq!(address::STACK, address::RESERVED + RESERVED);
         assert_eq!(65536, address::STACK as usize + sizes::STACK as usize);
         assert_eq!(address::MAX, 0xFFFF);
